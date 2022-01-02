@@ -1,18 +1,24 @@
 package com.maikon.course.entities;
 
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@Entity //Ctrl + Shift + o --> jaxax.persistance.Entity
-public class User implements Serializable {	
+@Entity // Ctrl + Shift + o --> jaxax.persistance.Entity
+@Table(name = "tb_user")
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@Id //Ctrl + Shift + o --> jaxax.persistance.id
+
+	@Id // Ctrl + Shift + o --> jaxax.persistance.id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
@@ -20,8 +26,11 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 	
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
+
 	public User() {
-		
+
 	}
 
 	public User(Long id, String name, String email, String phone, String password) {
@@ -73,6 +82,10 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -89,7 +102,5 @@ public class User implements Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 
 }
